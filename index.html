@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Facturas 2026 â Joel Rojas Salazar</title>
+  <title>Dashboard Facturas 2026 – Joel Rojas Salazar</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <style>
     :root {
@@ -205,10 +205,10 @@
 <body>
 
 <header>
-  <h1>ð Dashboard Facturas 2026</h1>
-  <p>Joel Rojas Salazar Â· Generado el 28/03/2026</p>
+  <h1>📊 Dashboard Facturas 2026</h1>
+  <p>Joel Rojas Salazar · Generado el 28/03/2026</p>
   <div class="meta">
-    <span>Fuentes: BAC Credomatic Â· BN Contacto Digital Â· Facturar.cr Â· Hulipractice Â· Consufit Â· ICE/KÃ¶lbi Â· Apple Â· Google Cloud</span>
+    <span>Fuentes: BAC Credomatic · BN Contacto Digital · Facturar.cr · Hulipractice · Consufit · ICE/Kölbi · Apple · Google Cloud</span>
   </div>
 </header>
 
@@ -223,10 +223,10 @@
       <option value="2">Febrero</option>
       <option value="3">Marzo</option>
     </select>
-    <label>CategorÃ­a</label>
+    <label>Categoría</label>
     <select id="filterCat">
       <option value="">Todas</option>
-      <option value="alimentaciÃ³n">AlimentaciÃ³n</option>
+      <option value="alimentación">Alimentación</option>
       <option value="salud">Salud</option>
       <option value="servicios">Servicios</option>
       <option value="transporte">Transporte</option>
@@ -236,9 +236,9 @@
     <label>Tipo</label>
     <select id="filterTipo">
       <option value="">Todos</option>
-      <option value="NotificaciÃ³n BAC">NotificaciÃ³n BAC</option>
+      <option value="Notificación BAC">Notificación BAC</option>
       <option value="Voucher Digital BN">Voucher Digital BN</option>
-      <option value="Factura electrÃ³nica">Factura electrÃ³nica</option>
+      <option value="Factura electrónica">Factura electrónica</option>
       <option value="Cobro">Cobro</option>
       <option value="Invoice">Invoice</option>
     </select>
@@ -250,26 +250,26 @@
   <div class="kpi-grid" id="kpiGrid">
     <div class="kpi-card blue">
       <div class="kpi-label">Total Gastos</div>
-      <div class="kpi-value" id="kpiTotal">â¡0</div>
+      <div class="kpi-value" id="kpiTotal">₡0</div>
       <div class="kpi-sub" id="kpiTxns">0 transacciones</div>
     </div>
     <div class="kpi-card amber">
-      <div class="kpi-label">Promedio por TransacciÃ³n</div>
-      <div class="kpi-value" id="kpiAvg">â¡0</div>
+      <div class="kpi-label">Promedio por Transacción</div>
+      <div class="kpi-value" id="kpiAvg">₡0</div>
       <div class="kpi-sub">gasto promedio</div>
     </div>
     <div class="kpi-card rose">
-      <div class="kpi-label">Gasto MÃ¡s Alto</div>
-      <div class="kpi-value" id="kpiMax">â¡0</div>
+      <div class="kpi-label">Gasto Más Alto</div>
+      <div class="kpi-value" id="kpiMax">₡0</div>
       <div class="kpi-sub" id="kpiMaxName">-</div>
     </div>
     <div class="kpi-card green">
-      <div class="kpi-label">CategorÃ­a Principal</div>
+      <div class="kpi-label">Categoría Principal</div>
       <div class="kpi-value" id="kpiTopCat">-</div>
       <div class="kpi-sub" id="kpiTopCatPct">-</div>
     </div>
     <div class="kpi-card violet">
-      <div class="kpi-label">Mes mÃ¡s costoso</div>
+      <div class="kpi-label">Mes más costoso</div>
       <div class="kpi-value" id="kpiTopMes">-</div>
       <div class="kpi-sub" id="kpiTopMesAmt">-</div>
     </div>
@@ -278,11 +278,11 @@
   <!-- Charts Row 1 -->
   <div class="charts-grid">
     <div class="chart-card">
-      <div class="chart-title">Gastos por CategorÃ­a</div>
+      <div class="chart-title">Gastos por Categoría</div>
       <div class="chart-wrap"><canvas id="chartCat"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-title">EvoluciÃ³n Mensual</div>
+      <div class="chart-title">Evolución Mensual</div>
       <div class="chart-wrap"><canvas id="chartMes"></canvas></div>
     </div>
     <div class="chart-card">
@@ -303,17 +303,17 @@
   <div class="table-card">
     <div class="table-header">
       <h2>Todas las Transacciones</h2>
-      <input class="table-search" type="text" id="tableSearch" placeholder="Buscar comercioâ¦">
+      <input class="table-search" type="text" id="tableSearch" placeholder="Buscar comercio…">
     </div>
     <div class="table-wrap">
       <table id="mainTable">
         <thead>
           <tr>
-            <th onclick="sortTable('fecha')">Fecha <span class="sort-icon">â</span></th>
-            <th onclick="sortTable('comercio')">Comercio / Emisor <span class="sort-icon">â</span></th>
-            <th onclick="sortTable('monto')" style="text-align:right">Monto (CRC) <span class="sort-icon">â</span></th>
-            <th onclick="sortTable('categoria')">CategorÃ­a <span class="sort-icon">â</span></th>
-            <th onclick="sortTable('tipo')">Tipo <span class="sort-icon">â</span></th>
+            <th onclick="sortTable('fecha')">Fecha <span class="sort-icon">↕</span></th>
+            <th onclick="sortTable('comercio')">Comercio / Emisor <span class="sort-icon">↕</span></th>
+            <th onclick="sortTable('monto')" style="text-align:right">Monto (CRC) <span class="sort-icon">↕</span></th>
+            <th onclick="sortTable('categoria')">Categoría <span class="sort-icon">↕</span></th>
+            <th onclick="sortTable('tipo')">Tipo <span class="sort-icon">↕</span></th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -324,136 +324,136 @@
 </div>
 
 <footer>
-  Dashboard Facturas 2026 Â· Joel Rojas Salazar Â· Ãltima actualizaciÃ³n: 28/03/2026
+  Dashboard Facturas 2026 · Joel Rojas Salazar · Última actualización: 28/03/2026
 </footer>
 
 <script>
-// ââ DATA âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── DATA ─────────────────────────────────────────────────────────────────────
 const RAW = [
 ["28/03/2026","ANTHROPIC SAN FRANCISCO (BN)",2355,"suscripciones","Voucher Digital BN"],
-["27/03/2026","LA CUCHARA DEL SABOR",3800,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["27/03/2026","LA CUCHARA DEL SABOR 2",3500,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["26/03/2026","Farmacia la Bomba",61489.99,"salud","Factura electrÃ³nica"],
-["26/03/2026","Luis Carlos Sancho Torres",85000,"salud","Factura electrÃ³nica"],
-["26/03/2026","FARMACIA COMUNAL SAN P",51490,"salud","NotificaciÃ³n BAC"],
-["26/03/2026","DULCE CAFE",18150,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["26/03/2026","DR. LUIS CARLOS SANCHO",85000,"salud","NotificaciÃ³n BAC"],
-["23/03/2026","LA CUCHARA DEL SABOR 2",2500,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["21/03/2026","MAXIPALI SAN RAFAEL HE",7783,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["21/03/2026","ESTACION DE SERVSAN RA",16283,"transporte","NotificaciÃ³n BAC"],
-["20/03/2026","LA CUCHARA DEL SABOR 2 (BN)",3000,"alimentaciÃ³n","Voucher Digital BN"],
-["18/03/2026","Colegio Ciencias EconÃ³micas",8300,"servicios","Cobro"],
-["18/03/2026","EL SABORCITO DE PUENTE (BN)",6000,"alimentaciÃ³n","Voucher Digital BN"],
+["27/03/2026","LA CUCHARA DEL SABOR",3800,"alimentación","Notificación BAC"],
+["27/03/2026","LA CUCHARA DEL SABOR 2",3500,"alimentación","Notificación BAC"],
+["26/03/2026","Farmacia la Bomba",61489.99,"salud","Factura electrónica"],
+["26/03/2026","Luis Carlos Sancho Torres",85000,"salud","Factura electrónica"],
+["26/03/2026","FARMACIA COMUNAL SAN P",51490,"salud","Notificación BAC"],
+["26/03/2026","DULCE CAFE",18150,"alimentación","Notificación BAC"],
+["26/03/2026","DR. LUIS CARLOS SANCHO",85000,"salud","Notificación BAC"],
+["23/03/2026","LA CUCHARA DEL SABOR 2",2500,"alimentación","Notificación BAC"],
+["21/03/2026","MAXIPALI SAN RAFAEL HE",7783,"alimentación","Notificación BAC"],
+["21/03/2026","ESTACION DE SERVSAN RA",16283,"transporte","Notificación BAC"],
+["20/03/2026","LA CUCHARA DEL SABOR 2 (BN)",3000,"alimentación","Voucher Digital BN"],
+["18/03/2026","Colegio Ciencias Económicas",8300,"servicios","Cobro"],
+["18/03/2026","EL SABORCITO DE PUENTE (BN)",6000,"alimentación","Voucher Digital BN"],
 ["17/03/2026","iCloud+ 50GB Monthly (Apple)",0.99,"suscripciones","Invoice"],
-["17/03/2026","ICE / KÃ¶lbi",44668.87,"servicios","Factura electrÃ³nica"],
-["17/03/2026","LA CUCHARA DEL SABOR",3800,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["17/03/2026","LA CUCHARA DEL SABOR 2 (BN)",3000,"alimentaciÃ³n","Voucher Digital BN"],
-["16/03/2026","COBRO ADMINISTRACION C",2263.85,"servicios","NotificaciÃ³n BAC"],
-["16/03/2026","LA CUCHARA DEL SABOR (BN)",3800,"alimentaciÃ³n","Voucher Digital BN"],
+["17/03/2026","ICE / Kölbi",44668.87,"servicios","Factura electrónica"],
+["17/03/2026","LA CUCHARA DEL SABOR",3800,"alimentación","Notificación BAC"],
+["17/03/2026","LA CUCHARA DEL SABOR 2 (BN)",3000,"alimentación","Voucher Digital BN"],
+["16/03/2026","COBRO ADMINISTRACION C",2263.85,"servicios","Notificación BAC"],
+["16/03/2026","LA CUCHARA DEL SABOR (BN)",3800,"alimentación","Voucher Digital BN"],
 ["15/03/2026","ANTHROPIC SAN FRANCISCO (BN)",4750,"suscripciones","Voucher Digital BN"],
 ["15/03/2026","ANTHROPIC SAN FRANCISCO (BN)",2375,"suscripciones","Voucher Digital BN"],
-["13/03/2026","EBANO (BN)",600,"alimentaciÃ³n","Voucher Digital BN"],
-["13/03/2026","LA CUCHARA DEL SABOR 2",3500,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["12/03/2026","DELTA BARVA",16817,"transporte","NotificaciÃ³n BAC"],
+["13/03/2026","EBANO (BN)",600,"alimentación","Voucher Digital BN"],
+["13/03/2026","LA CUCHARA DEL SABOR 2",3500,"alimentación","Notificación BAC"],
+["12/03/2026","DELTA BARVA",16817,"transporte","Notificación BAC"],
 ["12/03/2026","CLAUDE.AI SUBSCRIPTION (BN)",9580,"suscripciones","Voucher Digital BN"],
-["12/03/2026","Consufit â Cobro IVA Feb 2026",20000,"servicios","Cobro"],
+["12/03/2026","Consufit – Cobro IVA Feb 2026",20000,"servicios","Cobro"],
 ["11/03/2026","ANTHROPIC SAN FRANCISCO (BN)",2400,"suscripciones","Voucher Digital BN"],
-["10/03/2026","LA CUCHARA DEL SABOR 2",3000,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["09/03/2026","LA CUCHARA DEL SABOR",3800,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["09/03/2026","EBANO",2000,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["09/03/2026","LA CUCHARA DEL SABOR 2",3000,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["07/03/2026","MAXIPALI SAN RAFAEL HE",30588,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["06/03/2026","POPS PAVAS (BN)",1975,"alimentaciÃ³n","Voucher Digital BN"],
-["06/03/2026","EBANO (BN)",600,"alimentaciÃ³n","Voucher Digital BN"],
-["05/03/2026","LA CUCHARA DEL SABOR 2",3000,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["05/03/2026","AUTO MERCADO HEREDIA",26880,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["03/03/2026","AUTO MERCADO HEREDIA",25070,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["03/03/2026","DELTA BARVA",5000,"transporte","NotificaciÃ³n BAC"],
+["10/03/2026","LA CUCHARA DEL SABOR 2",3000,"alimentación","Notificación BAC"],
+["09/03/2026","LA CUCHARA DEL SABOR",3800,"alimentación","Notificación BAC"],
+["09/03/2026","EBANO",2000,"alimentación","Notificación BAC"],
+["09/03/2026","LA CUCHARA DEL SABOR 2",3000,"alimentación","Notificación BAC"],
+["07/03/2026","MAXIPALI SAN RAFAEL HE",30588,"alimentación","Notificación BAC"],
+["06/03/2026","POPS PAVAS (BN)",1975,"alimentación","Voucher Digital BN"],
+["06/03/2026","EBANO (BN)",600,"alimentación","Voucher Digital BN"],
+["05/03/2026","LA CUCHARA DEL SABOR 2",3000,"alimentación","Notificación BAC"],
+["05/03/2026","AUTO MERCADO HEREDIA",26880,"alimentación","Notificación BAC"],
+["03/03/2026","AUTO MERCADO HEREDIA",25070,"alimentación","Notificación BAC"],
+["03/03/2026","DELTA BARVA",5000,"transporte","Notificación BAC"],
 ["02/03/2026","YouTube Premium (BN)",549.70,"suscripciones","Voucher Digital BN"],
 ["02/03/2026","GOOGLE CLOUD NVBFWZ (BN)",43.02,"suscripciones","Voucher Digital BN"],
-["02/03/2026","PALI SN RAFAEL HEREDIA",4614,"alimentaciÃ³n","NotificaciÃ³n BAC"],
+["02/03/2026","PALI SN RAFAEL HEREDIA",4614,"alimentación","Notificación BAC"],
 ["01/03/2026","YouTube Premium (BN)",4190,"suscripciones","Voucher Digital BN"],
 ["01/03/2026","Google Cloud Platform & APIs",348.94,"suscripciones","Invoice"],
-["01/03/2026","MAXIPALI SAN RAFAEL HE",26963,"alimentaciÃ³n","NotificaciÃ³n BAC"],
+["01/03/2026","MAXIPALI SAN RAFAEL HE",26963,"alimentación","Notificación BAC"],
 ["04/03/2026","NOTION LABS INC. (BN)",11592,"suscripciones","Voucher Digital BN"],
 ["28/02/2026","OPENAI CHATGPT SUBSCR (BN)",9560,"suscripciones","Voucher Digital BN"],
-["28/02/2026","DULCE CAFE",15550,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["28/02/2026","LA CUCHARA DEL SABOR 2",3000,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["27/02/2026","LA CUCHARA DEL SABOR",3800,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["26/02/2026","Consufit â Cierre Fiscal 2025",77531,"servicios","Cobro"],
-["24/02/2026","EBANO",2000,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["24/02/2026","LA CUCHARA DEL SABOR",3800,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["22/02/2026","RESTAURANTE LA MONTANA",11622,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["22/02/2026","NATURAL PLANET",34600,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["22/02/2026","Colegio Ciencias EconÃ³micas",8300,"servicios","Cobro"],
-["21/02/2026","Elvira RamÃ­rez GonzÃ¡lez (dental)",90000,"salud","Factura electrÃ³nica"],
-["21/02/2026","PALI SN RAFAEL HEREDIA",5538,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["21/02/2026","CLINICA RAMIREZ DENTAL",90000,"salud","NotificaciÃ³n BAC"],
+["28/02/2026","DULCE CAFE",15550,"alimentación","Notificación BAC"],
+["28/02/2026","LA CUCHARA DEL SABOR 2",3000,"alimentación","Notificación BAC"],
+["27/02/2026","LA CUCHARA DEL SABOR",3800,"alimentación","Notificación BAC"],
+["26/02/2026","Consufit – Cierre Fiscal 2025",77531,"servicios","Cobro"],
+["24/02/2026","EBANO",2000,"alimentación","Notificación BAC"],
+["24/02/2026","LA CUCHARA DEL SABOR",3800,"alimentación","Notificación BAC"],
+["22/02/2026","RESTAURANTE LA MONTANA",11622,"alimentación","Notificación BAC"],
+["22/02/2026","NATURAL PLANET",34600,"alimentación","Notificación BAC"],
+["22/02/2026","Colegio Ciencias Económicas",8300,"servicios","Cobro"],
+["21/02/2026","Elvira Ramírez González (dental)",90000,"salud","Factura electrónica"],
+["21/02/2026","PALI SN RAFAEL HEREDIA",5538,"alimentación","Notificación BAC"],
+["21/02/2026","CLINICA RAMIREZ DENTAL",90000,"salud","Notificación BAC"],
 ["18/02/2026","Notion Plus & IA (Apple)",21.99,"suscripciones","Invoice"],
-["19/02/2026","SPOON",7000,"alimentaciÃ³n","NotificaciÃ³n BAC"],
+["19/02/2026","SPOON",7000,"alimentación","Notificación BAC"],
 ["15/02/2026","APP KOLBI ICE (BN)",44759.07,"servicios","Voucher Digital BN"],
-["14/02/2026","PRICE SMART",91994.37,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["14/02/2026","DULCE CAFE",21120,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["13/02/2026","DELTA RHORMOSER",15738,"transporte","NotificaciÃ³n BAC"],
-["13/02/2026","Consufit â Cobro IVA Ene 2026",10000,"servicios","Cobro"],
+["14/02/2026","PRICE SMART",91994.37,"alimentación","Notificación BAC"],
+["14/02/2026","DULCE CAFE",21120,"alimentación","Notificación BAC"],
+["13/02/2026","DELTA RHORMOSER",15738,"transporte","Notificación BAC"],
+["13/02/2026","Consufit – Cobro IVA Ene 2026",10000,"servicios","Cobro"],
 ["12/02/2026","CLAUDE.AI SUBSCRIPTION (BN)",9860,"suscripciones","Voucher Digital BN"],
-["09/02/2026","EBANO",2000,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["09/02/2026","LA CUCHARA DEL SABOR",3800,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["07/02/2026","AUTO MERCADO HEREDIA",19125,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["07/02/2026","MAXIPALI SAN RAFAEL HE",29386,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["07/02/2026","GOOD LIFE",78800,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["06/02/2026","EBANO",2000,"alimentaciÃ³n","NotificaciÃ³n BAC"],
+["09/02/2026","EBANO",2000,"alimentación","Notificación BAC"],
+["09/02/2026","LA CUCHARA DEL SABOR",3800,"alimentación","Notificación BAC"],
+["07/02/2026","AUTO MERCADO HEREDIA",19125,"alimentación","Notificación BAC"],
+["07/02/2026","MAXIPALI SAN RAFAEL HE",29386,"alimentación","Notificación BAC"],
+["07/02/2026","GOOD LIFE",78800,"alimentación","Notificación BAC"],
+["06/02/2026","EBANO",2000,"alimentación","Notificación BAC"],
 ["06/02/2026","APPLE.COM BILL (BN)",29935.01,"suscripciones","Voucher Digital BN"],
-["06/02/2026","POPS PAVAS",1975,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["06/02/2026","EL GALLO GRILL",8500,"alimentaciÃ³n","NotificaciÃ³n BAC"],
+["06/02/2026","POPS PAVAS",1975,"alimentación","Notificación BAC"],
+["06/02/2026","EL GALLO GRILL",8500,"alimentación","Notificación BAC"],
 ["04/02/2026","NOTION LABS INC. (BN)",12096,"suscripciones","Voucher Digital BN"],
 ["02/02/2026","YouTube Premium (BN)",552.20,"suscripciones","Voucher Digital BN"],
-["03/02/2026","PALI SN RAFAEL HEREDIA",8270,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["03/02/2026","AUTO MERCADO HEREDIA",55154,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["02/02/2026","LA CUCHARA DEL SABOR",3800,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["02/02/2026","ESTACION DE SERVSAN RA",12500,"transporte","NotificaciÃ³n BAC"],
-["01/02/2026","PRICE SMART",161715,"alimentaciÃ³n","NotificaciÃ³n BAC"],
+["03/02/2026","PALI SN RAFAEL HEREDIA",8270,"alimentación","Notificación BAC"],
+["03/02/2026","AUTO MERCADO HEREDIA",55154,"alimentación","Notificación BAC"],
+["02/02/2026","LA CUCHARA DEL SABOR",3800,"alimentación","Notificación BAC"],
+["02/02/2026","ESTACION DE SERVSAN RA",12500,"transporte","Notificación BAC"],
+["01/02/2026","PRICE SMART",161715,"alimentación","Notificación BAC"],
 ["01/02/2026","YouTube Premium (BN)",4190,"suscripciones","Voucher Digital BN"],
 ["31/01/2026","OPENAI CHATGPT SUBSCR (BN)",10040,"suscripciones","Voucher Digital BN"],
-["31/01/2026","HELADOS POPS BARVA HER",1975,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["31/01/2026","DULCE CAFE",16500,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["31/01/2026","LORIS PARFUM",62475,"otros","NotificaciÃ³n BAC"],
-["31/01/2026","SAUL E.MENDEZ",47500,"otros","NotificaciÃ³n BAC"],
-["31/01/2026","THE FACE SHOP MUTIPLAZ",9835,"otros","NotificaciÃ³n BAC"],
-["31/01/2026","PERRY ELLIS",44700.01,"otros","NotificaciÃ³n BAC"],
-["31/01/2026","GARMIN MULTIPLAZA",23188.19,"otros","NotificaciÃ³n BAC"],
-["31/01/2026","REEBOK ESCAZU",86880,"otros","NotificaciÃ³n BAC"],
-["30/01/2026","PALI SN RAFAEL HEREDIA",5918,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["30/01/2026","LA CUCHARA DEL SABOR",3800,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["29/01/2026","SUPER CORNER",7160,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["28/01/2026","EBANO",2000,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["28/01/2026","LA CUCHARA DEL SABOR 2",4800,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["27/01/2026","DULCE CAFE",20460,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["27/01/2026","EBANO",2000,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["26/01/2026","Colegio Ciencias EconÃ³micas",8300,"servicios","Cobro"],
-["26/01/2026","MAXIPALI SAN RAFAEL HE",5800,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["26/01/2026","BOMBA SANTO DOMINGO",7500,"transporte","NotificaciÃ³n BAC"],
-["24/01/2026","AUTO MERCADO HEREDIA",51304.1,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["24/01/2026","PALI SN RAFAEL HEREDIA",4614,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["24/01/2026","MACROBIOTICA SANTA TE",25075,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["24/01/2026","ESTACION DE SERVSAN RA",12430,"transporte","NotificaciÃ³n BAC"],
-["24/01/2026","AUTO LAVADO MATHYW HER",10000,"transporte","NotificaciÃ³n BAC"],
-["23/01/2026","AUTO MERCADO HEREDIA",5995,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["23/01/2026","DLC* UBER EATS",10603,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["19/01/2026","ICE / KÃ¶lbi",44780.07,"servicios","Factura electrÃ³nica"],
-["19/01/2026","DLC* UBER RIDES",500,"transporte","NotificaciÃ³n BAC"],
-["19/01/2026","UBR* PENDING.UBER.COM",2559.59,"transporte","NotificaciÃ³n BAC"],
-["18/01/2026","DULCE CAFE",20460,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["17/01/2026","MAXIPALI SAN RAFAEL HE",48971,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["14/01/2026","Consufit â Cobro IVA Dic 2025",10000,"servicios","Cobro"],
-["14/01/2026","PEQUENO MUNDO TIBAS",5800,"otros","NotificaciÃ³n BAC"],
-["14/01/2026","EL GALLO GRILL",20750,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["13/01/2026","DELTA BARVA",3000,"transporte","NotificaciÃ³n BAC"],
-["12/01/2026","Farmacia Fischel (Automercado Heredia)",8712.06,"salud","Factura electrÃ³nica"],
-["10/01/2026","AUTO MERCADO HEREDIA",52210.7,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["10/01/2026","NATURAL PLANET",11548.6,"alimentaciÃ³n","NotificaciÃ³n BAC"],
-["10/01/2026","BOMBA SANTO DOMINGO",13500,"transporte","NotificaciÃ³n BAC"],
-["10/01/2026","Farmacia Fischel (Automercado Heredia)",23786.67,"salud","Factura electrÃ³nica"],
+["31/01/2026","HELADOS POPS BARVA HER",1975,"alimentación","Notificación BAC"],
+["31/01/2026","DULCE CAFE",16500,"alimentación","Notificación BAC"],
+["31/01/2026","LORIS PARFUM",62475,"otros","Notificación BAC"],
+["31/01/2026","SAUL E.MENDEZ",47500,"otros","Notificación BAC"],
+["31/01/2026","THE FACE SHOP MUTIPLAZ",9835,"otros","Notificación BAC"],
+["31/01/2026","PERRY ELLIS",44700.01,"otros","Notificación BAC"],
+["31/01/2026","GARMIN MULTIPLAZA",23188.19,"otros","Notificación BAC"],
+["31/01/2026","REEBOK ESCAZU",86880,"otros","Notificación BAC"],
+["30/01/2026","PALI SN RAFAEL HEREDIA",5918,"alimentación","Notificación BAC"],
+["30/01/2026","LA CUCHARA DEL SABOR",3800,"alimentación","Notificación BAC"],
+["29/01/2026","SUPER CORNER",7160,"alimentación","Notificación BAC"],
+["28/01/2026","EBANO",2000,"alimentación","Notificación BAC"],
+["28/01/2026","LA CUCHARA DEL SABOR 2",4800,"alimentación","Notificación BAC"],
+["27/01/2026","DULCE CAFE",20460,"alimentación","Notificación BAC"],
+["27/01/2026","EBANO",2000,"alimentación","Notificación BAC"],
+["26/01/2026","Colegio Ciencias Económicas",8300,"servicios","Cobro"],
+["26/01/2026","MAXIPALI SAN RAFAEL HE",5800,"alimentación","Notificación BAC"],
+["26/01/2026","BOMBA SANTO DOMINGO",7500,"transporte","Notificación BAC"],
+["24/01/2026","AUTO MERCADO HEREDIA",51304.1,"alimentación","Notificación BAC"],
+["24/01/2026","PALI SN RAFAEL HEREDIA",4614,"alimentación","Notificación BAC"],
+["24/01/2026","MACROBIOTICA SANTA TE",25075,"alimentación","Notificación BAC"],
+["24/01/2026","ESTACION DE SERVSAN RA",12430,"transporte","Notificación BAC"],
+["24/01/2026","AUTO LAVADO MATHYW HER",10000,"transporte","Notificación BAC"],
+["23/01/2026","AUTO MERCADO HEREDIA",5995,"alimentación","Notificación BAC"],
+["23/01/2026","DLC* UBER EATS",10603,"alimentación","Notificación BAC"],
+["19/01/2026","ICE / Kölbi",44780.07,"servicios","Factura electrónica"],
+["19/01/2026","DLC* UBER RIDES",500,"transporte","Notificación BAC"],
+["19/01/2026","UBR* PENDING.UBER.COM",2559.59,"transporte","Notificación BAC"],
+["18/01/2026","DULCE CAFE",20460,"alimentación","Notificación BAC"],
+["17/01/2026","MAXIPALI SAN RAFAEL HE",48971,"alimentación","Notificación BAC"],
+["14/01/2026","Consufit – Cobro IVA Dic 2025",10000,"servicios","Cobro"],
+["14/01/2026","PEQUENO MUNDO TIBAS",5800,"otros","Notificación BAC"],
+["14/01/2026","EL GALLO GRILL",20750,"alimentación","Notificación BAC"],
+["13/01/2026","DELTA BARVA",3000,"transporte","Notificación BAC"],
+["12/01/2026","Farmacia Fischel (Automercado Heredia)",8712.06,"salud","Factura electrónica"],
+["10/01/2026","AUTO MERCADO HEREDIA",52210.7,"alimentación","Notificación BAC"],
+["10/01/2026","NATURAL PLANET",11548.6,"alimentación","Notificación BAC"],
+["10/01/2026","BOMBA SANTO DOMINGO",13500,"transporte","Notificación BAC"],
+["10/01/2026","Farmacia Fischel (Automercado Heredia)",23786.67,"salud","Factura electrónica"],
 ["02/01/2026","YouTube Premium (BN)",550.45,"suscripciones","Voucher Digital BN"]
 ];
 
@@ -465,7 +465,7 @@ const data = RAW.map(r => {
 
 const MONTHS = {1:'Enero', 2:'Febrero', 3:'Marzo'};
 const CAT_COLORS = {
-  'alimentaciÃ³n': '#10b981',
+  'alimentación': '#10b981',
   'salud': '#f43f5e',
   'servicios': '#3b82f6',
   'transporte': '#f59e0b',
@@ -473,7 +473,7 @@ const CAT_COLORS = {
   'otros': '#94a3b8'
 };
 
-// ââ STATE ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── STATE ────────────────────────────────────────────────────────────────────
 let filteredData = [...data];
 let sortCol = 'fecha';
 let sortAsc = false;
@@ -482,7 +482,7 @@ let tableSearch = '';
 // Charts
 let chartCat, chartMes, chartTipo, chartMerch, chartDiario;
 
-// ââ FILTER âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── FILTER ───────────────────────────────────────────────────────────────────
 function applyFilters() {
   const mes = document.getElementById('filterMes').value;
   const cat = document.getElementById('filterCat').value;
@@ -514,9 +514,9 @@ document.getElementById('tableSearch').addEventListener('input', e => {
   applyFilters();
 });
 
-// ââ KPI âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── KPI ─────────────────────────────────────────────────────────────────────
 function fmt(n) {
-  return 'â¡' + Math.round(n).toLocaleString('es-CR');
+  return '₡' + Math.round(n).toLocaleString('es-CR');
 }
 
 function updateKPIs() {
@@ -544,7 +544,7 @@ function updateKPIs() {
   document.getElementById('row-count').textContent = `Mostrando ${filteredData.length} de ${data.length} registros`;
 }
 
-// ââ CHARTS âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── CHARTS ───────────────────────────────────────────────────────────────────
 function updateCharts() {
   // Category chart
   const byCat = {};
@@ -562,7 +562,7 @@ function updateCharts() {
       responsive: true, maintainAspectRatio: false,
       plugins: {
         legend: { position: 'right', labels: { font: { size: 11 }, padding: 12 } },
-        tooltip: { callbacks: { label: ctx => ` â¡${ctx.raw.toLocaleString('es-CR')} (${Math.round(ctx.raw/filteredData.reduce((s,r)=>s+r.monto,0)*100)}%)` } }
+        tooltip: { callbacks: { label: ctx => ` ₡${ctx.raw.toLocaleString('es-CR')} (${Math.round(ctx.raw/filteredData.reduce((s,r)=>s+r.monto,0)*100)}%)` } }
       }
     }
   });
@@ -586,10 +586,10 @@ function updateCharts() {
     },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` â¡${ctx.raw.toLocaleString('es-CR')}` } } },
-      scales: { y: { ticks: { callback: v => 'â¡' + (v/1000).toFixed(0) + 'K' }, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } }
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ₡${ctx.raw.toLocaleString('es-CR')}` } } },
+      scales: { y: { ticks: { callback: v => '₡+ (v/1000).toFixed(0) + 'K' }, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } }
     }
-  });
+    });
 
   // Payment type chart
   const byTipo = {};
@@ -605,7 +605,7 @@ function updateCharts() {
     },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { position: 'right', labels: { font: { size: 10 }, padding: 8 } }, tooltip: { callbacks: { label: ctx => ` â¡${ctx.raw.toLocaleString('es-CR')}` } } }
+      plugins: { legend: { position: 'right', labels: { font: { size: 10 }, padding: 8 } }, tooltip: { callbacks: { label: ctx => ` ₡${ctx.raw.toLocaleString('es-CR')}` } } }
     }
   });
 
@@ -618,13 +618,13 @@ function updateCharts() {
   chartMerch = new Chart(document.getElementById('chartMerch'), {
     type: 'bar',
     data: {
-      labels: topMerch.map(([k]) => k.length > 22 ? k.substring(0,22)+'â¦' : k),
+      labels: topMerch.map(([k]) => k.length > 22 ? k.substring(0,22)+'…' : k),
       datasets: [{ label: 'Monto', data: topMerch.map(([,v])=>Math.round(v)), backgroundColor: '#3b82f6', borderRadius: 4 }]
     },
     options: {
       responsive: true, maintainAspectRatio: false, indexAxis: 'y',
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` â¡${ctx.raw.toLocaleString('es-CR')}` } } },
-      scales: { x: { ticks: { callback: v => 'â¡'+(v/1000).toFixed(0)+'K' }, grid: { color: '#f1f5f9' } }, y: { grid: { display: false }, ticks: { font: { size: 11 } } } }
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ₡${ctx.raw.toLocaleString('es-CR')}` } } },
+      scales: { x: { ticks: { callback: v => '₡'+(v/1000).toFixed(0)+'K' }, grid: { color: '#f1f5f9' } }, y: { grid: { display: false }, ticks: { font: { size: 11 } } } }
     }
   });
 
@@ -654,18 +654,18 @@ function updateCharts() {
     },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` â¡${ctx.raw.toLocaleString('es-CR')}` } } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ₡${ctx.raw.toLocaleString('es-CR')}` } } },
       scales: {
-        y: { ticks: { callback: v => 'â¡'+(v/1000).toFixed(0)+'K' }, grid: { color: '#f1f5f9' } },
+        y: { ticks: { callback: v => '₡'+(v/1000).toFixed(0)+'K' }, grid: { color: '#f1f5f9' } },
         x: { grid: { display: false }, ticks: { maxTicksLimit: 20, font: { size: 10 } } }
       }
     }
   });
 }
 
-// ââ TABLE ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── TABLE ────────────────────────────────────────────────────────────────────
 function badgeClass(cat) {
-  return cat === 'alimentaciÃ³n' ? 'alimentacion' : cat;
+  return cat === 'alimentación' ? 'alimentacion' : cat;
 }
 
 function updateTable() {
@@ -681,7 +681,7 @@ function updateTable() {
     <tr>
       <td>${r.fecha}</td>
       <td>${r.comercio}</td>
-      <td class="monto-cell">â¡${r.monto.toLocaleString('es-CR')}</td>
+      <td class="monto-cell">₡${r.monto.toLocaleString('es-CR')}</td>
       <td><span class="badge ${badgeClass(r.categoria)}">${r.categoria}</span></td>
       <td style="color:var(--muted);font-size:0.8rem">${r.tipo}</td>
     </tr>
@@ -693,7 +693,7 @@ function sortTable(col) {
   updateTable();
 }
 
-// ââ MAIN âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── MAIN ─────────────────────────────────────────────────────────────────────
 function updateAll() {
   updateKPIs();
   updateCharts();

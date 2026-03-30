@@ -334,7 +334,6 @@ const RAW = [
 ["27/03/2026","LA CUCHARA DEL SABOR",3800,"alimentación","Notificación BAC"],
 ["27/03/2026","LA CUCHARA DEL SABOR 2",3500,"alimentación","Notificación BAC"],
 ["26/03/2026","Farmacia la Bomba",61489.99,"salud","Factura electrónica"],
-["26/03/2026","Luis Carlos Sancho Torres",85000,"salud","Factura electrónica"],
 ["26/03/2026","FARMACIA COMUNAL SAN P",51490,"salud","Notificación BAC"],
 ["26/03/2026","DULCE CAFE",18150,"alimentación","Notificación BAC"],
 ["26/03/2026","DR. LUIS CARLOS SANCHO",85000,"salud","Notificación BAC"],
@@ -344,7 +343,7 @@ const RAW = [
 ["20/03/2026","LA CUCHARA DEL SABOR 2 (BN)",3000,"alimentación","Voucher Digital BN"],
 ["18/03/2026","Colegio Ciencias Económicas",8300,"servicios","Cobro"],
 ["18/03/2026","EL SABORCITO DE PUENTE (BN)",6000,"alimentación","Voucher Digital BN"],
-["17/03/2026","iCloud+ 50GB Monthly (Apple)",0.99,"suscripciones","Invoice"],
+["17/03/2026","iCloud+ 50GB Monthly (Apple)",470,"suscripciones","Invoice"],
 ["17/03/2026","ICE / Kölbi",44668.87,"servicios","Factura electrónica"],
 ["17/03/2026","LA CUCHARA DEL SABOR",3800,"alimentación","Notificación BAC"],
 ["17/03/2026","LA CUCHARA DEL SABOR 2 (BN)",3000,"alimentación","Voucher Digital BN"],
@@ -386,10 +385,9 @@ const RAW = [
 ["22/02/2026","RESTAURANTE LA MONTANA",11622,"alimentación","Notificación BAC"],
 ["22/02/2026","NATURAL PLANET",34600,"alimentación","Notificación BAC"],
 ["22/02/2026","Colegio Ciencias Económicas",8300,"servicios","Cobro"],
-["21/02/2026","Elvira Ramírez González (dental)",90000,"salud","Factura electrónica"],
 ["21/02/2026","PALI SN RAFAEL HEREDIA",5538,"alimentación","Notificación BAC"],
 ["21/02/2026","CLINICA RAMIREZ DENTAL",90000,"salud","Notificación BAC"],
-["18/02/2026","Notion Plus & IA (Apple)",21.99,"suscripciones","Invoice"],
+["18/02/2026","Notion Plus & IA (Apple)",11000,"suscripciones","Invoice"],
 ["19/02/2026","SPOON",7000,"alimentación","Notificación BAC"],
 ["15/02/2026","APP KOLBI ICE (BN)",44759.07,"servicios","Voucher Digital BN"],
 ["14/02/2026","PRICE SMART",91994.37,"alimentación","Notificación BAC"],
@@ -514,7 +512,7 @@ document.getElementById('tableSearch').addEventListener('input', e => {
   applyFilters();
 });
 
-// ── KPI ─────────────────────────────────────────────────────────────────────
+// ── KPI ──────────────────────────────────────────────────────────────────────
 function fmt(n) {
   return '₡' + Math.round(n).toLocaleString('es-CR');
 }
@@ -587,9 +585,9 @@ function updateCharts() {
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ₡${ctx.raw.toLocaleString('es-CR')}` } } },
-      scales: { y: { ticks: { callback: v => '₡+ (v/1000).toFixed(0) + 'K' }, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } }
+      scales: { y: { ticks: { callback: v => '₡' + (v/1000).toFixed(0) + 'K' }, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } }
     }
-    });
+  });
 
   // Payment type chart
   const byTipo = {};

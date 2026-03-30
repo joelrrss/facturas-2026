@@ -41,6 +41,26 @@
     }
     .container { max-width: 1300px; margin: 0 auto; padding: 28px 24px; }
 
+    /* Loading */
+    #loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 300px;
+      gap: 16px;
+      color: var(--muted);
+    }
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #dashboard { display: none; }
+
     /* Filters */
     .filters {
       background: var(--card);
@@ -206,7 +226,7 @@
 
 <header>
   <h1>📊 Dashboard Facturas 2026</h1>
-  <p>Joel Rojas Salazar · Generado el 28/03/2026</p>
+  <p>Joel Rojas Salazar · Actualizado el <span id="headerFecha">…</span></p>
   <div class="meta">
     <span>Fuentes: BAC Credomatic · BN Contacto Digital · Facturar.cr · Hulipractice · Consufit · ICE/Kölbi · Apple · Google Cloud</span>
   </div>
@@ -214,254 +234,160 @@
 
 <div class="container">
 
-  <!-- Filters -->
-  <div class="filters">
-    <label>Mes</label>
-    <select id="filterMes">
-      <option value="">Todos</option>
-      <option value="1">Enero</option>
-      <option value="2">Febrero</option>
-      <option value="3">Marzo</option>
-    </select>
-    <label>Categoría</label>
-    <select id="filterCat">
-      <option value="">Todas</option>
-      <option value="alimentación">Alimentación</option>
-      <option value="salud">Salud</option>
-      <option value="servicios">Servicios</option>
-      <option value="transporte">Transporte</option>
-      <option value="suscripciones">Suscripciones</option>
-      <option value="otros">Otros</option>
-    </select>
-    <label>Tipo</label>
-    <select id="filterTipo">
-      <option value="">Todos</option>
-      <option value="Notificación BAC">Notificación BAC</option>
-      <option value="Voucher Digital BN">Voucher Digital BN</option>
-      <option value="Factura electrónica">Factura electrónica</option>
-      <option value="Cobro">Cobro</option>
-      <option value="Invoice">Invoice</option>
-    </select>
-    <button class="btn-reset" onclick="resetFilters()">Limpiar filtros</button>
-    <span id="row-count"></span>
+  <!-- Loading state -->
+  <div id="loading">
+    <div class="spinner"></div>
+    <span>Cargando datos…</span>
   </div>
 
-  <!-- KPIs -->
-  <div class="kpi-grid" id="kpiGrid">
-    <div class="kpi-card blue">
-      <div class="kpi-label">Total Gastos</div>
-      <div class="kpi-value" id="kpiTotal">₡0</div>
-      <div class="kpi-sub" id="kpiTxns">0 transacciones</div>
-    </div>
-    <div class="kpi-card amber">
-      <div class="kpi-label">Promedio por Transacción</div>
-      <div class="kpi-value" id="kpiAvg">₡0</div>
-      <div class="kpi-sub">gasto promedio</div>
-    </div>
-    <div class="kpi-card rose">
-      <div class="kpi-label">Gasto Más Alto</div>
-      <div class="kpi-value" id="kpiMax">₡0</div>
-      <div class="kpi-sub" id="kpiMaxName">-</div>
-    </div>
-    <div class="kpi-card green">
-      <div class="kpi-label">Categoría Principal</div>
-      <div class="kpi-value" id="kpiTopCat">-</div>
-      <div class="kpi-sub" id="kpiTopCatPct">-</div>
-    </div>
-    <div class="kpi-card violet">
-      <div class="kpi-label">Mes más costoso</div>
-      <div class="kpi-value" id="kpiTopMes">-</div>
-      <div class="kpi-sub" id="kpiTopMesAmt">-</div>
-    </div>
-  </div>
+  <!-- Dashboard (hidden until data loads) -->
+  <div id="dashboard">
 
-  <!-- Charts Row 1 -->
-  <div class="charts-grid">
-    <div class="chart-card">
-      <div class="chart-title">Gastos por Categoría</div>
-      <div class="chart-wrap"><canvas id="chartCat"></canvas></div>
+    <!-- Filters -->
+    <div class="filters">
+      <label>Mes</label>
+      <select id="filterMes">
+        <option value="">Todos</option>
+      </select>
+      <label>Categoría</label>
+      <select id="filterCat">
+        <option value="">Todas</option>
+        <option value="alimentación">Alimentación</option>
+        <option value="salud">Salud</option>
+        <option value="servicios">Servicios</option>
+        <option value="transporte">Transporte</option>
+        <option value="suscripciones">Suscripciones</option>
+        <option value="otros">Otros</option>
+      </select>
+      <label>Tipo</label>
+      <select id="filterTipo">
+        <option value="">Todos</option>
+      </select>
+      <button class="btn-reset" onclick="resetFilters()">Limpiar filtros</button>
+      <span id="row-count"></span>
     </div>
-    <div class="chart-card">
-      <div class="chart-title">Evolución Mensual</div>
-      <div class="chart-wrap"><canvas id="chartMes"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">Canal de Pago</div>
-      <div class="chart-wrap"><canvas id="chartTipo"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">Top 10 Comercios por Monto</div>
-      <div class="chart-wrap"><canvas id="chartMerch"></canvas></div>
-    </div>
-    <div class="chart-card wide">
-      <div class="chart-title">Gastos Diarios (Tendencia)</div>
-      <div class="chart-wrap tall"><canvas id="chartDiario"></canvas></div>
-    </div>
-  </div>
 
-  <!-- Table -->
-  <div class="table-card">
-    <div class="table-header">
-      <h2>Todas las Transacciones</h2>
-      <input class="table-search" type="text" id="tableSearch" placeholder="Buscar comercio…">
+    <!-- KPIs -->
+    <div class="kpi-grid" id="kpiGrid">
+      <div class="kpi-card blue">
+        <div class="kpi-label">Total Gastos</div>
+        <div class="kpi-value" id="kpiTotal">₡0</div>
+        <div class="kpi-sub" id="kpiTxns">0 transacciones</div>
+      </div>
+      <div class="kpi-card amber">
+        <div class="kpi-label">Promedio por Transacción</div>
+        <div class="kpi-value" id="kpiAvg">₡0</div>
+        <div class="kpi-sub">gasto promedio</div>
+      </div>
+      <div class="kpi-card rose">
+        <div class="kpi-label">Gasto Más Alto</div>
+        <div class="kpi-value" id="kpiMax">₡0</div>
+        <div class="kpi-sub" id="kpiMaxName">-</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">Categoría Principal</div>
+        <div class="kpi-value" id="kpiTopCat">-</div>
+        <div class="kpi-sub" id="kpiTopCatPct">-</div>
+      </div>
+      <div class="kpi-card violet">
+        <div class="kpi-label">Mes más costoso</div>
+        <div class="kpi-value" id="kpiTopMes">-</div>
+        <div class="kpi-sub" id="kpiTopMesAmt">-</div>
+      </div>
     </div>
-    <div class="table-wrap">
-      <table id="mainTable">
-        <thead>
-          <tr>
-            <th onclick="sortTable('fecha')">Fecha <span class="sort-icon">↕</span></th>
-            <th onclick="sortTable('comercio')">Comercio / Emisor <span class="sort-icon">↕</span></th>
-            <th onclick="sortTable('monto')" style="text-align:right">Monto (CRC) <span class="sort-icon">↕</span></th>
-            <th onclick="sortTable('categoria')">Categoría <span class="sort-icon">↕</span></th>
-            <th onclick="sortTable('tipo')">Tipo <span class="sort-icon">↕</span></th>
-          </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-      </table>
-    </div>
-  </div>
 
+    <!-- Charts Row 1 -->
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-title">Gastos por Categoría</div>
+        <div class="chart-wrap"><canvas id="chartCat"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Evolución Mensual</div>
+        <div class="chart-wrap"><canvas id="chartMes"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Canal de Pago</div>
+        <div class="chart-wrap"><canvas id="chartTipo"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Top 10 Comercios por Monto</div>
+        <div class="chart-wrap"><canvas id="chartMerch"></canvas></div>
+      </div>
+      <div class="chart-card wide">
+        <div class="chart-title">Gastos Diarios (Tendencia)</div>
+        <div class="chart-wrap tall"><canvas id="chartDiario"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-card">
+      <div class="table-header">
+        <h2>Todas las Transacciones</h2>
+        <input class="table-search" type="text" id="tableSearch" placeholder="Buscar comercio…">
+      </div>
+      <div class="table-wrap">
+        <table id="mainTable">
+          <thead>
+            <tr>
+              <th onclick="sortTable('fecha')">Fecha <span class="sort-icon">↕</span></th>
+              <th onclick="sortTable('comercio')">Comercio / Emisor <span class="sort-icon">↕</span></th>
+              <th onclick="sortTable('monto')" style="text-align:right">Monto (CRC) <span class="sort-icon">↕</span></th>
+              <th onclick="sortTable('categoria')">Categoría <span class="sort-icon">↕</span></th>
+              <th onclick="sortTable('tipo')">Tipo <span class="sort-icon">↕</span></th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /#dashboard -->
 </div>
 
 <footer>
-  Dashboard Facturas 2026 · Joel Rojas Salazar · Última actualización: 28/03/2026
+  Dashboard Facturas 2026 · Joel Rojas Salazar · Última actualización: <span id="footerFecha">…</span>
 </footer>
 
 <script>
-// ── DATA ─────────────────────────────────────────────────────────────────────
-const RAW = [
-["28/03/2026","ANTHROPIC SAN FRANCISCO (BN)",2355,"suscripciones","Voucher Digital BN"],
-["27/03/2026","LA CUCHARA DEL SABOR",3800,"alimentación","Notificación BAC"],
-["27/03/2026","LA CUCHARA DEL SABOR 2",3500,"alimentación","Notificación BAC"],
-["26/03/2026","Farmacia la Bomba",61489.99,"salud","Factura electrónica"],
-["26/03/2026","FARMACIA COMUNAL SAN P",51490,"salud","Notificación BAC"],
-["26/03/2026","DULCE CAFE",18150,"alimentación","Notificación BAC"],
-["26/03/2026","DR. LUIS CARLOS SANCHO",85000,"salud","Notificación BAC"],
-["23/03/2026","LA CUCHARA DEL SABOR 2",2500,"alimentación","Notificación BAC"],
-["21/03/2026","MAXIPALI SAN RAFAEL HE",7783,"alimentación","Notificación BAC"],
-["21/03/2026","ESTACION DE SERVSAN RA",16283,"transporte","Notificación BAC"],
-["20/03/2026","LA CUCHARA DEL SABOR 2 (BN)",3000,"alimentación","Voucher Digital BN"],
-["18/03/2026","Colegio Ciencias Económicas",8300,"servicios","Cobro"],
-["18/03/2026","EL SABORCITO DE PUENTE (BN)",6000,"alimentación","Voucher Digital BN"],
-["17/03/2026","iCloud+ 50GB Monthly (Apple)",470,"suscripciones","Invoice"],
-["17/03/2026","ICE / Kölbi",44668.87,"servicios","Factura electrónica"],
-["17/03/2026","LA CUCHARA DEL SABOR",3800,"alimentación","Notificación BAC"],
-["17/03/2026","LA CUCHARA DEL SABOR 2 (BN)",3000,"alimentación","Voucher Digital BN"],
-["16/03/2026","COBRO ADMINISTRACION C",2263.85,"servicios","Notificación BAC"],
-["16/03/2026","LA CUCHARA DEL SABOR (BN)",3800,"alimentación","Voucher Digital BN"],
-["15/03/2026","ANTHROPIC SAN FRANCISCO (BN)",4750,"suscripciones","Voucher Digital BN"],
-["15/03/2026","ANTHROPIC SAN FRANCISCO (BN)",2375,"suscripciones","Voucher Digital BN"],
-["13/03/2026","EBANO (BN)",600,"alimentación","Voucher Digital BN"],
-["13/03/2026","LA CUCHARA DEL SABOR 2",3500,"alimentación","Notificación BAC"],
-["12/03/2026","DELTA BARVA",16817,"transporte","Notificación BAC"],
-["12/03/2026","CLAUDE.AI SUBSCRIPTION (BN)",9580,"suscripciones","Voucher Digital BN"],
-["12/03/2026","Consufit – Cobro IVA Feb 2026",20000,"servicios","Cobro"],
-["11/03/2026","ANTHROPIC SAN FRANCISCO (BN)",2400,"suscripciones","Voucher Digital BN"],
-["10/03/2026","LA CUCHARA DEL SABOR 2",3000,"alimentación","Notificación BAC"],
-["09/03/2026","LA CUCHARA DEL SABOR",3800,"alimentación","Notificación BAC"],
-["09/03/2026","EBANO",2000,"alimentación","Notificación BAC"],
-["09/03/2026","LA CUCHARA DEL SABOR 2",3000,"alimentación","Notificación BAC"],
-["07/03/2026","MAXIPALI SAN RAFAEL HE",30588,"alimentación","Notificación BAC"],
-["06/03/2026","POPS PAVAS (BN)",1975,"alimentación","Voucher Digital BN"],
-["06/03/2026","EBANO (BN)",600,"alimentación","Voucher Digital BN"],
-["05/03/2026","LA CUCHARA DEL SABOR 2",3000,"alimentación","Notificación BAC"],
-["05/03/2026","AUTO MERCADO HEREDIA",26880,"alimentación","Notificación BAC"],
-["03/03/2026","AUTO MERCADO HEREDIA",25070,"alimentación","Notificación BAC"],
-["03/03/2026","DELTA BARVA",5000,"transporte","Notificación BAC"],
-["02/03/2026","YouTube Premium (BN)",549.70,"suscripciones","Voucher Digital BN"],
-["02/03/2026","GOOGLE CLOUD NVBFWZ (BN)",43.02,"suscripciones","Voucher Digital BN"],
-["02/03/2026","PALI SN RAFAEL HEREDIA",4614,"alimentación","Notificación BAC"],
-["01/03/2026","YouTube Premium (BN)",4190,"suscripciones","Voucher Digital BN"],
-["01/03/2026","Google Cloud Platform & APIs",348.94,"suscripciones","Invoice"],
-["01/03/2026","MAXIPALI SAN RAFAEL HE",26963,"alimentación","Notificación BAC"],
-["04/03/2026","NOTION LABS INC. (BN)",11592,"suscripciones","Voucher Digital BN"],
-["28/02/2026","OPENAI CHATGPT SUBSCR (BN)",9560,"suscripciones","Voucher Digital BN"],
-["28/02/2026","DULCE CAFE",15550,"alimentación","Notificación BAC"],
-["28/02/2026","LA CUCHARA DEL SABOR 2",3000,"alimentación","Notificación BAC"],
-["27/02/2026","LA CUCHARA DEL SABOR",3800,"alimentación","Notificación BAC"],
-["26/02/2026","Consufit – Cierre Fiscal 2025",77531,"servicios","Cobro"],
-["24/02/2026","EBANO",2000,"alimentación","Notificación BAC"],
-["24/02/2026","LA CUCHARA DEL SABOR",3800,"alimentación","Notificación BAC"],
-["22/02/2026","RESTAURANTE LA MONTANA",11622,"alimentación","Notificación BAC"],
-["22/02/2026","NATURAL PLANET",34600,"alimentación","Notificación BAC"],
-["22/02/2026","Colegio Ciencias Económicas",8300,"servicios","Cobro"],
-["21/02/2026","PALI SN RAFAEL HEREDIA",5538,"alimentación","Notificación BAC"],
-["21/02/2026","CLINICA RAMIREZ DENTAL",90000,"salud","Notificación BAC"],
-["18/02/2026","Notion Plus & IA (Apple)",11000,"suscripciones","Invoice"],
-["19/02/2026","SPOON",7000,"alimentación","Notificación BAC"],
-["15/02/2026","APP KOLBI ICE (BN)",44759.07,"servicios","Voucher Digital BN"],
-["14/02/2026","PRICE SMART",91994.37,"alimentación","Notificación BAC"],
-["14/02/2026","DULCE CAFE",21120,"alimentación","Notificación BAC"],
-["13/02/2026","DELTA RHORMOSER",15738,"transporte","Notificación BAC"],
-["13/02/2026","Consufit – Cobro IVA Ene 2026",10000,"servicios","Cobro"],
-["12/02/2026","CLAUDE.AI SUBSCRIPTION (BN)",9860,"suscripciones","Voucher Digital BN"],
-["09/02/2026","EBANO",2000,"alimentación","Notificación BAC"],
-["09/02/2026","LA CUCHARA DEL SABOR",3800,"alimentación","Notificación BAC"],
-["07/02/2026","AUTO MERCADO HEREDIA",19125,"alimentación","Notificación BAC"],
-["07/02/2026","MAXIPALI SAN RAFAEL HE",29386,"alimentación","Notificación BAC"],
-["07/02/2026","GOOD LIFE",78800,"alimentación","Notificación BAC"],
-["06/02/2026","EBANO",2000,"alimentación","Notificación BAC"],
-["06/02/2026","APPLE.COM BILL (BN)",29935.01,"suscripciones","Voucher Digital BN"],
-["06/02/2026","POPS PAVAS",1975,"alimentación","Notificación BAC"],
-["06/02/2026","EL GALLO GRILL",8500,"alimentación","Notificación BAC"],
-["04/02/2026","NOTION LABS INC. (BN)",12096,"suscripciones","Voucher Digital BN"],
-["02/02/2026","YouTube Premium (BN)",552.20,"suscripciones","Voucher Digital BN"],
-["03/02/2026","PALI SN RAFAEL HEREDIA",8270,"alimentación","Notificación BAC"],
-["03/02/2026","AUTO MERCADO HEREDIA",55154,"alimentación","Notificación BAC"],
-["02/02/2026","LA CUCHARA DEL SABOR",3800,"alimentación","Notificación BAC"],
-["02/02/2026","ESTACION DE SERVSAN RA",12500,"transporte","Notificación BAC"],
-["01/02/2026","PRICE SMART",161715,"alimentación","Notificación BAC"],
-["01/02/2026","YouTube Premium (BN)",4190,"suscripciones","Voucher Digital BN"],
-["31/01/2026","OPENAI CHATGPT SUBSCR (BN)",10040,"suscripciones","Voucher Digital BN"],
-["31/01/2026","HELADOS POPS BARVA HER",1975,"alimentación","Notificación BAC"],
-["31/01/2026","DULCE CAFE",16500,"alimentación","Notificación BAC"],
-["31/01/2026","LORIS PARFUM",62475,"otros","Notificación BAC"],
-["31/01/2026","SAUL E.MENDEZ",47500,"otros","Notificación BAC"],
-["31/01/2026","THE FACE SHOP MUTIPLAZ",9835,"otros","Notificación BAC"],
-["31/01/2026","PERRY ELLIS",44700.01,"otros","Notificación BAC"],
-["31/01/2026","GARMIN MULTIPLAZA",23188.19,"otros","Notificación BAC"],
-["31/01/2026","REEBOK ESCAZU",86880,"otros","Notificación BAC"],
-["30/01/2026","PALI SN RAFAEL HEREDIA",5918,"alimentación","Notificación BAC"],
-["30/01/2026","LA CUCHARA DEL SABOR",3800,"alimentación","Notificación BAC"],
-["29/01/2026","SUPER CORNER",7160,"alimentación","Notificación BAC"],
-["28/01/2026","EBANO",2000,"alimentación","Notificación BAC"],
-["28/01/2026","LA CUCHARA DEL SABOR 2",4800,"alimentación","Notificación BAC"],
-["27/01/2026","DULCE CAFE",20460,"alimentación","Notificación BAC"],
-["27/01/2026","EBANO",2000,"alimentación","Notificación BAC"],
-["26/01/2026","Colegio Ciencias Económicas",8300,"servicios","Cobro"],
-["26/01/2026","MAXIPALI SAN RAFAEL HE",5800,"alimentación","Notificación BAC"],
-["26/01/2026","BOMBA SANTO DOMINGO",7500,"transporte","Notificación BAC"],
-["24/01/2026","AUTO MERCADO HEREDIA",51304.1,"alimentación","Notificación BAC"],
-["24/01/2026","PALI SN RAFAEL HEREDIA",4614,"alimentación","Notificación BAC"],
-["24/01/2026","MACROBIOTICA SANTA TE",25075,"alimentación","Notificación BAC"],
-["24/01/2026","ESTACION DE SERVSAN RA",12430,"transporte","Notificación BAC"],
-["24/01/2026","AUTO LAVADO MATHYW HER",10000,"transporte","Notificación BAC"],
-["23/01/2026","AUTO MERCADO HEREDIA",5995,"alimentación","Notificación BAC"],
-["23/01/2026","DLC* UBER EATS",10603,"alimentación","Notificación BAC"],
-["19/01/2026","ICE / Kölbi",44780.07,"servicios","Factura electrónica"],
-["19/01/2026","DLC* UBER RIDES",500,"transporte","Notificación BAC"],
-["19/01/2026","UBR* PENDING.UBER.COM",2559.59,"transporte","Notificación BAC"],
-["18/01/2026","DULCE CAFE",20460,"alimentación","Notificación BAC"],
-["17/01/2026","MAXIPALI SAN RAFAEL HE",48971,"alimentación","Notificación BAC"],
-["14/01/2026","Consufit – Cobro IVA Dic 2025",10000,"servicios","Cobro"],
-["14/01/2026","PEQUENO MUNDO TIBAS",5800,"otros","Notificación BAC"],
-["14/01/2026","EL GALLO GRILL",20750,"alimentación","Notificación BAC"],
-["13/01/2026","DELTA BARVA",3000,"transporte","Notificación BAC"],
-["12/01/2026","Farmacia Fischel (Automercado Heredia)",8712.06,"salud","Factura electrónica"],
-["10/01/2026","AUTO MERCADO HEREDIA",52210.7,"alimentación","Notificación BAC"],
-["10/01/2026","NATURAL PLANET",11548.6,"alimentación","Notificación BAC"],
-["10/01/2026","BOMBA SANTO DOMINGO",13500,"transporte","Notificación BAC"],
-["10/01/2026","Farmacia Fischel (Automercado Heredia)",23786.67,"salud","Factura electrónica"],
-["02/01/2026","YouTube Premium (BN)",550.45,"suscripciones","Voucher Digital BN"]
-];
+// ── CSV PARSER ────────────────────────────────────────────────────────────────
+// Handles quoted fields that may contain commas.
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  const headers = lines[0].split(',').map(h => h.trim());
+  const rows = [];
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+    const fields = [];
+    let current = '';
+    let inQuotes = false;
+    for (let c = 0; c < line.length; c++) {
+      const ch = line[c];
+      if (ch === '"') {
+        inQuotes = !inQuotes;
+      } else if (ch === ',' && !inQuotes) {
+        fields.push(current.trim());
+        current = '';
+      } else {
+        current += ch;
+      }
+    }
+    fields.push(current.trim());
+    if (fields.length >= 5) {
+      const obj = {};
+      headers.forEach((h, idx) => { obj[h] = fields[idx] || ''; });
+      rows.push(obj);
+    }
+  }
+  return rows;
+}
 
-// Parse dates
-const data = RAW.map(r => {
-  const [d, m, y] = r[0].split('/');
-  return { fecha: r[0], ts: new Date(y, m-1, d), mes: parseInt(m), dia: parseInt(d), comercio: r[1], monto: r[2], categoria: r[3], tipo: r[4] };
-});
-
-const MONTHS = {1:'Enero', 2:'Febrero', 3:'Marzo'};
+// ── CONSTANTS ─────────────────────────────────────────────────────────────────
+const MONTH_NAMES = {
+  1:'Enero', 2:'Febrero', 3:'Marzo', 4:'Abril', 5:'Mayo', 6:'Junio',
+  7:'Julio', 8:'Agosto', 9:'Septiembre', 10:'Octubre', 11:'Noviembre', 12:'Diciembre'
+};
 const CAT_COLORS = {
   'alimentación': '#10b981',
   'salud': '#f43f5e',
@@ -471,24 +397,96 @@ const CAT_COLORS = {
   'otros': '#94a3b8'
 };
 
-// ── STATE ────────────────────────────────────────────────────────────────────
-let filteredData = [...data];
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let allData = [];
+let filteredData = [];
 let sortCol = 'fecha';
 let sortAsc = false;
 let tableSearch = '';
-
-// Charts
 let chartCat, chartMes, chartTipo, chartMerch, chartDiario;
 
-// ── FILTER ───────────────────────────────────────────────────────────────────
+// ── LOAD DATA ─────────────────────────────────────────────────────────────────
+fetch('facturas.csv')
+  .then(res => {
+    if (!res.ok) throw new Error('No se pudo cargar facturas.csv (HTTP ' + res.status + ')');
+    return res.text();
+  })
+  .then(text => {
+    const rows = parseCSV(text);
+    allData = rows.map(r => {
+      const fecha = r['Fecha'] || r['fecha'] || '';
+      const parts = fecha.split('/');
+      const d = parseInt(parts[0]), m = parseInt(parts[1]), y = parseInt(parts[2]);
+      return {
+        fecha,
+        ts: new Date(y, m - 1, d),
+        mes: m,
+        dia: d,
+        comercio: r['Comercio'] || r['comercio'] || '',
+        monto: parseFloat((r['Monto'] || r['monto'] || '0').replace(/,/g, '')),
+        categoria: (r['Categoria'] || r['Categoría'] || r['categoria'] || 'otros').toLowerCase(),
+        tipo: r['Tipo'] || r['tipo'] || ''
+      };
+    }).filter(r => r.fecha && !isNaN(r.monto));
+
+    // Set header date to the most recent transaction date
+    const mostRecent = allData.reduce((best, r) => r.ts > best.ts ? r : best, allData[0]);
+    const fechaStr = mostRecent ? mostRecent.fecha : '—';
+    document.getElementById('headerFecha').textContent = fechaStr;
+    document.getElementById('footerFecha').textContent = fechaStr;
+
+    // Populate dynamic month filter
+    const months = [...new Set(allData.map(r => r.mes))].sort((a, b) => a - b);
+    const mesSelect = document.getElementById('filterMes');
+    months.forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m;
+      opt.textContent = MONTH_NAMES[m];
+      mesSelect.appendChild(opt);
+    });
+
+    // Populate dynamic tipo filter
+    const tipos = [...new Set(allData.map(r => r.tipo))].sort();
+    const tipoSelect = document.getElementById('filterTipo');
+    tipos.forEach(t => {
+      const opt = document.createElement('option');
+      opt.value = t;
+      opt.textContent = t;
+      tipoSelect.appendChild(opt);
+    });
+
+    // Wire up filters
+    mesSelect.addEventListener('change', applyFilters);
+    document.getElementById('filterCat').addEventListener('change', applyFilters);
+    tipoSelect.addEventListener('change', applyFilters);
+    document.getElementById('tableSearch').addEventListener('input', e => {
+      tableSearch = e.target.value.toLowerCase();
+      applyFilters();
+    });
+
+    // Show dashboard
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+
+    filteredData = [...allData];
+    updateAll();
+  })
+  .catch(err => {
+    document.getElementById('loading').innerHTML =
+      '<p style="color:#f43f5e;font-weight:600">Error al cargar los datos</p>' +
+      '<p style="color:var(--muted);font-size:0.85rem;margin-top:8px">' + err.message + '</p>' +
+      '<p style="color:var(--muted);font-size:0.8rem;margin-top:4px">Asegúrate de que <code>facturas.csv</code> está en el mismo repositorio que este archivo.</p>';
+  });
+
+// ── FILTER ────────────────────────────────────────────────────────────────────
 function applyFilters() {
-  const mes = document.getElementById('filterMes').value;
-  const cat = document.getElementById('filterCat').value;
+  const mes  = document.getElementById('filterMes').value;
+  const cat  = document.getElementById('filterCat').value;
   const tipo = document.getElementById('filterTipo').value;
-  filteredData = data.filter(r => {
-    if (mes && r.mes !== parseInt(mes)) return false;
-    if (cat && r.categoria !== cat) return false;
-    if (tipo && r.tipo !== tipo) return false;
+  filteredData = allData.filter(r => {
+    if (mes  && r.mes !== parseInt(mes)) return false;
+    if (cat  && r.categoria !== cat)     return false;
+    if (tipo && r.tipo !== tipo)         return false;
     if (tableSearch && !r.comercio.toLowerCase().includes(tableSearch)) return false;
     return true;
   });
@@ -496,110 +494,98 @@ function applyFilters() {
 }
 
 function resetFilters() {
-  document.getElementById('filterMes').value = '';
-  document.getElementById('filterCat').value = '';
+  document.getElementById('filterMes').value  = '';
+  document.getElementById('filterCat').value  = '';
   document.getElementById('filterTipo').value = '';
   document.getElementById('tableSearch').value = '';
   tableSearch = '';
   applyFilters();
 }
 
-document.getElementById('filterMes').addEventListener('change', applyFilters);
-document.getElementById('filterCat').addEventListener('change', applyFilters);
-document.getElementById('filterTipo').addEventListener('change', applyFilters);
-document.getElementById('tableSearch').addEventListener('input', e => {
-  tableSearch = e.target.value.toLowerCase();
-  applyFilters();
-});
-
-// ── KPI ──────────────────────────────────────────────────────────────────────
+// ── KPIs ──────────────────────────────────────────────────────────────────────
 function fmt(n) {
   return '₡' + Math.round(n).toLocaleString('es-CR');
 }
 
 function updateKPIs() {
-  const total = filteredData.reduce((s, r) => s + r.monto, 0);
-  const avg = filteredData.length ? total / filteredData.length : 0;
+  const total  = filteredData.reduce((s, r) => s + r.monto, 0);
+  const avg    = filteredData.length ? total / filteredData.length : 0;
   const maxRow = filteredData.reduce((best, r) => r.monto > best.monto ? r : best, { monto: 0, comercio: '-' });
 
   const byCat = {};
   filteredData.forEach(r => { byCat[r.categoria] = (byCat[r.categoria] || 0) + r.monto; });
-  const topCat = Object.entries(byCat).sort((a,b) => b[1]-a[1])[0] || ['-', 0];
+  const topCat = Object.entries(byCat).sort((a, b) => b[1] - a[1])[0] || ['-', 0];
 
   const byMes = {};
   filteredData.forEach(r => { byMes[r.mes] = (byMes[r.mes] || 0) + r.monto; });
-  const topMes = Object.entries(byMes).sort((a,b) => b[1]-a[1])[0] || ['-', 0];
+  const topMes = Object.entries(byMes).sort((a, b) => b[1] - a[1])[0] || ['-', 0];
 
-  document.getElementById('kpiTotal').textContent = fmt(total);
-  document.getElementById('kpiTxns').textContent = filteredData.length + ' transacciones';
-  document.getElementById('kpiAvg').textContent = fmt(avg);
-  document.getElementById('kpiMax').textContent = fmt(maxRow.monto);
-  document.getElementById('kpiMaxName').textContent = maxRow.comercio;
-  document.getElementById('kpiTopCat').textContent = topCat[0].charAt(0).toUpperCase() + topCat[0].slice(1);
-  document.getElementById('kpiTopCatPct').textContent = total ? Math.round(topCat[1]/total*100) + '% del total' : '-';
-  document.getElementById('kpiTopMes').textContent = MONTHS[topMes[0]] || topMes[0];
-  document.getElementById('kpiTopMesAmt').textContent = fmt(topMes[1]);
-  document.getElementById('row-count').textContent = `Mostrando ${filteredData.length} de ${data.length} registros`;
+  document.getElementById('kpiTotal').textContent      = fmt(total);
+  document.getElementById('kpiTxns').textContent       = filteredData.length + ' transacciones';
+  document.getElementById('kpiAvg').textContent        = fmt(avg);
+  document.getElementById('kpiMax').textContent        = fmt(maxRow.monto);
+  document.getElementById('kpiMaxName').textContent    = maxRow.comercio;
+  document.getElementById('kpiTopCat').textContent     = topCat[0].charAt(0).toUpperCase() + topCat[0].slice(1);
+  document.getElementById('kpiTopCatPct').textContent  = total ? Math.round(topCat[1] / total * 100) + '% del total' : '-';
+  document.getElementById('kpiTopMes').textContent     = MONTH_NAMES[topMes[0]] || topMes[0];
+  document.getElementById('kpiTopMesAmt').textContent  = fmt(topMes[1]);
+  document.getElementById('row-count').textContent     = `Mostrando ${filteredData.length} de ${allData.length} registros`;
 }
 
-// ── CHARTS ───────────────────────────────────────────────────────────────────
+// ── CHARTS ────────────────────────────────────────────────────────────────────
 function updateCharts() {
-  // Category chart
+  // Category donut
   const byCat = {};
   filteredData.forEach(r => { byCat[r.categoria] = (byCat[r.categoria] || 0) + r.monto; });
-  const catEntries = Object.entries(byCat).sort((a,b) => b[1]-a[1]);
+  const catEntries = Object.entries(byCat).sort((a, b) => b[1] - a[1]);
 
   if (chartCat) chartCat.destroy();
   chartCat = new Chart(document.getElementById('chartCat'), {
     type: 'doughnut',
     data: {
       labels: catEntries.map(([k]) => k.charAt(0).toUpperCase() + k.slice(1)),
-      datasets: [{ data: catEntries.map(([,v]) => Math.round(v)), backgroundColor: catEntries.map(([k]) => CAT_COLORS[k] || '#94a3b8'), borderWidth: 2, borderColor: '#fff' }]
+      datasets: [{ data: catEntries.map(([, v]) => Math.round(v)), backgroundColor: catEntries.map(([k]) => CAT_COLORS[k] || '#94a3b8'), borderWidth: 2, borderColor: '#fff' }]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
         legend: { position: 'right', labels: { font: { size: 11 }, padding: 12 } },
-        tooltip: { callbacks: { label: ctx => ` ₡${ctx.raw.toLocaleString('es-CR')} (${Math.round(ctx.raw/filteredData.reduce((s,r)=>s+r.monto,0)*100)}%)` } }
+        tooltip: { callbacks: { label: ctx => ` ₡${ctx.raw.toLocaleString('es-CR')} (${Math.round(ctx.raw / filteredData.reduce((s, r) => s + r.monto, 0) * 100)}%)` } }
       }
     }
   });
 
-  // Monthly chart
+  // Monthly bar
   const byMes = {};
   filteredData.forEach(r => { byMes[r.mes] = (byMes[r.mes] || 0) + r.monto; });
-  const mesKeys = Object.keys(byMes).sort((a,b)=>a-b);
+  const mesKeys = Object.keys(byMes).map(Number).sort((a, b) => a - b);
+  const barColors = ['#3b82f6','#8b5cf6','#10b981','#f59e0b','#f43f5e','#06b6d4','#84cc16','#ec4899','#f97316','#14b8a6','#6366f1','#a855f7'];
 
   if (chartMes) chartMes.destroy();
   chartMes = new Chart(document.getElementById('chartMes'), {
     type: 'bar',
     data: {
-      labels: mesKeys.map(k => MONTHS[k]),
-      datasets: [{
-        label: 'Gastos (CRC)',
-        data: mesKeys.map(k => Math.round(byMes[k])),
-        backgroundColor: ['#3b82f6','#8b5cf6','#10b981'],
-        borderRadius: 6
-      }]
+      labels: mesKeys.map(k => MONTH_NAMES[k]),
+      datasets: [{ label: 'Gastos (CRC)', data: mesKeys.map(k => Math.round(byMes[k])), backgroundColor: mesKeys.map((_, i) => barColors[i % barColors.length]), borderRadius: 6 }]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ₡${ctx.raw.toLocaleString('es-CR')}` } } },
-      scales: { y: { ticks: { callback: v => '₡' + (v/1000).toFixed(0) + 'K' }, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } }
+      scales: { y: { ticks: { callback: v => '₡' + (v / 1000).toFixed(0) + 'K' }, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } }
     }
   });
 
-  // Payment type chart
+  // Payment type pie
   const byTipo = {};
   filteredData.forEach(r => { byTipo[r.tipo] = (byTipo[r.tipo] || 0) + r.monto; });
-  const tipoEntries = Object.entries(byTipo).sort((a,b)=>b[1]-a[1]);
+  const tipoEntries = Object.entries(byTipo).sort((a, b) => b[1] - a[1]);
 
   if (chartTipo) chartTipo.destroy();
   chartTipo = new Chart(document.getElementById('chartTipo'), {
     type: 'pie',
     data: {
-      labels: tipoEntries.map(([k])=>k),
-      datasets: [{ data: tipoEntries.map(([,v])=>Math.round(v)), backgroundColor: ['#1a56db','#10b981','#f59e0b','#f43f5e','#8b5cf6'], borderWidth: 2, borderColor: '#fff' }]
+      labels: tipoEntries.map(([k]) => k),
+      datasets: [{ data: tipoEntries.map(([, v]) => Math.round(v)), backgroundColor: ['#1a56db','#10b981','#f59e0b','#f43f5e','#8b5cf6','#06b6d4','#84cc16'], borderWidth: 2, borderColor: '#fff' }]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
@@ -607,31 +593,31 @@ function updateCharts() {
     }
   });
 
-  // Top merchants chart
+  // Top merchants horizontal bar
   const byMerch = {};
   filteredData.forEach(r => { byMerch[r.comercio] = (byMerch[r.comercio] || 0) + r.monto; });
-  const topMerch = Object.entries(byMerch).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  const topMerch = Object.entries(byMerch).sort((a, b) => b[1] - a[1]).slice(0, 10);
 
   if (chartMerch) chartMerch.destroy();
   chartMerch = new Chart(document.getElementById('chartMerch'), {
     type: 'bar',
     data: {
-      labels: topMerch.map(([k]) => k.length > 22 ? k.substring(0,22)+'…' : k),
-      datasets: [{ label: 'Monto', data: topMerch.map(([,v])=>Math.round(v)), backgroundColor: '#3b82f6', borderRadius: 4 }]
+      labels: topMerch.map(([k]) => k.length > 22 ? k.substring(0, 22) + '…' : k),
+      datasets: [{ label: 'Monto', data: topMerch.map(([, v]) => Math.round(v)), backgroundColor: '#3b82f6', borderRadius: 4 }]
     },
     options: {
       responsive: true, maintainAspectRatio: false, indexAxis: 'y',
       plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ₡${ctx.raw.toLocaleString('es-CR')}` } } },
-      scales: { x: { ticks: { callback: v => '₡'+(v/1000).toFixed(0)+'K' }, grid: { color: '#f1f5f9' } }, y: { grid: { display: false }, ticks: { font: { size: 11 } } } }
+      scales: { x: { ticks: { callback: v => '₡' + (v / 1000).toFixed(0) + 'K' }, grid: { color: '#f1f5f9' } }, y: { grid: { display: false }, ticks: { font: { size: 11 } } } }
     }
   });
 
-  // Daily chart
+  // Daily line chart
   const byDay = {};
   filteredData.forEach(r => { byDay[r.fecha] = (byDay[r.fecha] || 0) + r.monto; });
-  const dayKeys = Object.keys(byDay).sort((a,b) => {
-    const [da,ma,ya] = a.split('/'); const [db,mb,yb] = b.split('/');
-    return new Date(ya,ma-1,da) - new Date(yb,mb-1,db);
+  const dayKeys = Object.keys(byDay).sort((a, b) => {
+    const [da, ma, ya] = a.split('/'); const [db, mb, yb] = b.split('/');
+    return new Date(ya, ma - 1, da) - new Date(yb, mb - 1, db);
   });
 
   if (chartDiario) chartDiario.destroy();
@@ -654,28 +640,26 @@ function updateCharts() {
       responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ₡${ctx.raw.toLocaleString('es-CR')}` } } },
       scales: {
-        y: { ticks: { callback: v => '₡'+(v/1000).toFixed(0)+'K' }, grid: { color: '#f1f5f9' } },
+        y: { ticks: { callback: v => '₡' + (v / 1000).toFixed(0) + 'K' }, grid: { color: '#f1f5f9' } },
         x: { grid: { display: false }, ticks: { maxTicksLimit: 20, font: { size: 10 } } }
       }
     }
   });
 }
 
-// ── TABLE ────────────────────────────────────────────────────────────────────
+// ── TABLE ─────────────────────────────────────────────────────────────────────
 function badgeClass(cat) {
   return cat === 'alimentación' ? 'alimentacion' : cat;
 }
 
 function updateTable() {
   const sorted = [...filteredData].sort((a, b) => {
-    const av = a[sortCol], bv = b[sortCol];
-    if (sortCol === 'monto') return sortAsc ? av - bv : bv - av;
+    if (sortCol === 'monto') return sortAsc ? a.monto - b.monto : b.monto - a.monto;
     if (sortCol === 'fecha') return sortAsc ? a.ts - b.ts : b.ts - a.ts;
-    return sortAsc ? String(av).localeCompare(String(bv)) : String(bv).localeCompare(String(av));
+    return sortAsc ? String(a[sortCol]).localeCompare(String(b[sortCol])) : String(b[sortCol]).localeCompare(String(a[sortCol]));
   });
 
-  const tbody = document.getElementById('tableBody');
-  tbody.innerHTML = sorted.map(r => `
+  document.getElementById('tableBody').innerHTML = sorted.map(r => `
     <tr>
       <td>${r.fecha}</td>
       <td>${r.comercio}</td>
@@ -691,14 +675,12 @@ function sortTable(col) {
   updateTable();
 }
 
-// ── MAIN ─────────────────────────────────────────────────────────────────────
+// ── MAIN ──────────────────────────────────────────────────────────────────────
 function updateAll() {
   updateKPIs();
   updateCharts();
   updateTable();
 }
-
-updateAll();
 </script>
 </body>
 </html>

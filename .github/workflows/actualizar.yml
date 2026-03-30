@@ -1,0 +1,39 @@
+name: Actualización semanal de facturas
+
+on:
+  schedule:
+    # Cada lunes a las 13:00 UTC = 07:00 AM Costa Rica
+    - cron: '0 13 * * 1'
+  workflow_dispatch:
+    # También permite correrlo manualmente desde GitHub
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias
+        run: pip install google-auth google-auth-oauthlib google-api-python-client pandas
+
+      - name: Correr script de actualización
+        env:
+          GMAIL_CLIENT_ID:     ${{ secrets.GMAIL_CLIENT_ID }}
+          GMAIL_CLIENT_SECRET: ${{ secrets.GMAIL_CLIENT_SECRET }}
+          GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+        run: python scripts/actualizar.py
+
+      - name: Commit y push si hay cambios
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add facturas.csv
+          git diff --cached --quiet || git commit -m "Actualización automática $(date +'%d/%m/%Y')"
+          git push
